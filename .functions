@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# Create a new directory and enter it
+function mkd() {
+	mkdir -p "$@" && cd "$_";
+}
+
+# Use Git’s colored diff when available
+hash git &>/dev/null;
+if [ $? -eq 0 ]; then
+	function gitdiff() {
+		git diff --no-index --color-words "$@";
+	}
+fi;
+
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+function tre() {
+	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+}
+
+# open macvim
+gvim() {
+    if [ $# -eq 0 ]; then
+        open -a MacVim
+    elif [ $# -eq 1 ]; then
+        if [ ! -f "$1" ]; then
+            touch "$1" || return 1
+        fi
+        touch -t $( date -v+1S +'%Y%m%d%H%M' ) ~/.compare
+        open -a MacVim "$1" && {
+            sleep 0.2
+            if [ ~/.compare -ot "$1" ]; then
+                [ ! -s "$1" ] && rm "$1"
+            fi
+            rm ~/.compare
+        }
+    else
+        echo "$@: invalid arguments"
+        return 1
+    fi
+    return 0
+}
