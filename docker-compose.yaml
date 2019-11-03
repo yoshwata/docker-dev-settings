@@ -14,7 +14,9 @@ services:
       - /Users/yoshwata/git/githubcom/yoshwata/docker-dev-settings/.aliases:/home/yoshwata/.aliases
       - /Users/yoshwata/git/githubcom/yoshwata/docker-dev-settings/.functions:/home/yoshwata/.functions
       - /Users/yoshwata/git/githubcom/yoshwata/docker-dev-settings/.gitconfig.sh:/home/yoshwata/.gitconfig.sh
+      # settings you'd like to hide
       - /Users/yoshwata/git/githubcom/yoshwata/docker-dev-settings/.extra:/home/yoshwata/.extra
+      - /Users/yoshwata/git/githubcom/yoshwata/docker-dev-settings/.kube:/home/yoshwata/.kube
     working_dir: /work
   power-tmux:
     image: yoshwata/power-tmux:bionic
