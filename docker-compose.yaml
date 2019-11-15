@@ -2,7 +2,11 @@ version: '3'
 services:
   ubuntu-dev-base:
     image: yoshwata/ubuntu-dev-base:bionic
-    command: /bin/bash
+    command: |
+        echo hoge \
+        && sudo groupmod -g 100 -o users \
+        && sudo usermod -u 19227 -o yoshwata \
+        && /bin/bash
     volumes: &vol
       - .:/work
       - ./.tmux.conf:/home/yoshwata/.tmux.conf
@@ -25,6 +29,10 @@ services:
     working_dir: /work
   nvim:
     image: yoshwata/nvim:bionic
-    command: tmux new
+    command: >
+        bash -c "sudo echo hoge &&
+                 sudo groupmod -g 100 -o users &&
+                 sudo usermod -u 19227 -o yoshwata &&
+                 /bin/bash"
     volumes: *vol
     working_dir: /work
