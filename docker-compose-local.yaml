@@ -1,0 +1,37 @@
+version: '3'
+services:
+  ubuntu-dev-base:
+    image: yoshwata/ubuntu-dev-base:bionic
+    command: /bin/bash
+    volumes: &vol
+      - .:/work
+      - ./.tmux.conf:/home/yoshwata/.tmux.conf
+      - ./.bash_history:/home/yoshwata/.bash_history
+      - ./.bash_profile:/home/yoshwata/.bash_profile
+      - ./.path:/home/yoshwata/.path
+      - ./.bash_prompt:/home/yoshwata/.bash_prompt
+      - ./.exports:/home/yoshwata/.exports
+      - ./.aliases:/home/yoshwata/.aliases
+      - ./.functions:/home/yoshwata/.functions
+      - ./.gitconfig.sh:/home/yoshwata/.gitconfig.sh
+      # secret settings
+      - ./.extra:/home/yoshwata/.extra
+      - ./.kube:/home/yoshwata/.kube
+    working_dir: /work
+  power-tmux:
+    build:
+      context: /home/yoshwata/git/githubcom/yoshwata/docker-dev/images/power-tmux
+      args:
+        USER: "yoshwata"
+        UID: 1000
+        GROUP: "yoshwata"
+        GIT: 1000
+    image: yoshwata/power-tmux:bionic
+    command: tmux new
+    volumes: *vol
+    working_dir: /work
+  nvim:
+    image: yoshwata/nvim:bionic
+    command: tmux new
+    volumes: *vol
+    working_dir: /work
