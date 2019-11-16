@@ -2,11 +2,7 @@ version: '3'
 services:
   ubuntu-dev-base:
     image: yoshwata/ubuntu-dev-base:bionic
-    command: |
-        echo hoge \
-        && sudo groupmod -g 100 -o users \
-        && sudo usermod -u 19227 -o yoshwata \
-        && /bin/bash
+    command: /bin/bash
     volumes: &vol
       - .:/work
       - ./.tmux.conf:/home/yoshwata/.tmux.conf
@@ -18,7 +14,7 @@ services:
       - ./.aliases:/home/yoshwata/.aliases
       - ./.functions:/home/yoshwata/.functions
       - ./.gitconfig.sh:/home/yoshwata/.gitconfig.sh
-      # settings you'd like to hide
+      # secret settings
       - ./.extra:/home/yoshwata/.extra
       - ./.kube:/home/yoshwata/.kube
     working_dir: /work
@@ -29,10 +25,6 @@ services:
     working_dir: /work
   nvim:
     image: yoshwata/nvim:bionic
-    command: >
-        bash -c "sudo echo hoge &&
-                 sudo groupmod -g 100 -o users &&
-                 sudo usermod -u 19227 -o yoshwata &&
-                 /bin/bash"
+    command: tmux new
     volumes: *vol
     working_dir: /work
