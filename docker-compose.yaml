@@ -4,7 +4,7 @@ services:
     image: yoshwata/ubuntu-dev-base:bionic
     command: /bin/bash
     volumes: &vol
-      - .:/work
+      - ~:/work
       - ./.tmux.conf:/home/yoshwata/.tmux.conf
       - ./.bash_history:/home/yoshwata/.bash_history
       - ./.bash_profile:/home/yoshwata/.bash_profile
@@ -25,6 +25,11 @@ services:
     working_dir: /work
   nvim:
     image: yoshwata/nvim:bionic
+    command: tmux new
+    volumes: *vol
+    working_dir: /work
+  nodejs:
+    image: yoshwata/nodejs-dev-10:bionic
     command: tmux new
     volumes: *vol
     working_dir: /work
