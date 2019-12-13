@@ -14,7 +14,7 @@ services:
       - ./.aliases:/home/yoshwata/.aliases
       - ./.functions:/home/yoshwata/.functions
       - ./.gitconfig.sh:/home/yoshwata/.gitconfig.sh
-      # secret settings
+      # git ignored secret settings
       - ./.extra:/home/yoshwata/.extra
       - ./.kube:/home/yoshwata/.kube
     working_dir: /work
